@@ -8,7 +8,7 @@ import { serialize } from "cookie"
 const handler = async (req, res) => {
     connectToDb();
     if (req.method !== 'POST') {
-        res.status(422).json({ message: "UnHandled request !!" })
+        res.status(400).json({ message: "UnHandled request !!" })
     }
     // Validate request body
     const isValidUser = signinValidator(req.body);

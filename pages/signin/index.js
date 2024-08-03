@@ -4,7 +4,11 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
 
 function signin() {
-  const router = useRouter()
+  const guestInfo = {
+    email: 'john@gmail.com',
+    password: "1234"
+  }
+  const router = useRouter();
   const [formValues, setFormValues] = useState({
     email: "",
     password: ""
@@ -74,30 +78,37 @@ function signin() {
   }
 
 
-  const submitHandler = async (event) => {
+  const submitHandler = async (event, guest) => {
     event.preventDefault();
-    if (validateFormValues()) {
-      console.log(formValues);
-      console.log('Submited');
-      // const res = await fetch('/api/auth/signin', {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type" : "application/json"
-      //   },
-      //   body: JSON.stringify(formValues)
-      // });
+    if (validateFormValues() || guest) {
+      const res = await fetch('/api/auth/signin', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: guest ? JSON.stringify(guestInfo) : JSON.stringify(formValues)
+      });
 
-      // if(res.status === 422){
-      //   alert('Your inputs not valid!');
-      // }
-      // if(res.status === 429){
-      //   alert('This Email already exist !!!');
-      // }
-      // if(res.status === 201){
-      //   router.push('/')
-      // }
+      if (res.status === 422) {
+        alert('Your inputs not valid!');
+      }
+      if (res.status === 429) {
+        alert('Email or password is wrong !!');
+      }
+      if (res.status === 404) {
+        alert('There is no user with this email !!!');
+      }
+      if (res.status === 200) {
+        alert('Signin Successfully :))')
+        router.push('/')
+      }
     }
-
+  }
+  const guestLoginHandler = (event) => {
+    setFormValues(guestInfo)
+    setTimeout(() => {
+      submitHandler(event, true,)
+    }, 1000);
   }
 
   return (
@@ -107,8 +118,8 @@ function signin() {
         <Input value={formValues.email} onChangeHandler={onChangeHandler} type="email" placeholder="Email" name='email' error={errors.email} isFocus={focused.email} onFocusChanger={onFocusHandler} />
         <Input value={formValues.password} onChangeHandler={onChangeHandler} type="password" placeholder="Password" name='password' error={errors.password} isFocus={focused.password} onFocusChanger={onFocusHandler} />
         <div className='flex items-center gap-3 w-full justify-center p-1'>
-          <button className='btn btn-active btn-primary text-white w-1/2'>Submit</button>
-          <button className='btn btn-active btn-neutral text-white w-1/2'>Log in as a guest</button>
+          <button type='submit' className='btn btn-active btn-primary text-white w-1/2'>Submit</button>
+          <button type='submit' onClick={guestLoginHandler} className='btn btn-active btn-neutral text-white w-1/2'>Log in as a guest</button>
         </div>
         <Link className='text-blue-400 font-medium mt-2' href={'/signup'}>Dont have a account? Signup</Link>
       </form>
