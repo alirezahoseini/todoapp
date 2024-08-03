@@ -1,7 +1,12 @@
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 
 function signin() {
+  const [formValue, setFormVlues] = useState({
+    name: "",
+    email: "",
+    password: ""
+  })
   return (
     <div className='flex flex-col items-center justify-center lg:w-1/2 lg:mx-auto mt-5 p-3'>
       <h2 className="text-xl font-bold text-white  my-4">Login account</h2>

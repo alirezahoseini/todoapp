@@ -5,8 +5,8 @@ const v = new Validator;
 const schema = {
     name: {
         type: "string",
-        minLength: 3,
-        maxLength: 50,
+        min: 3,
+        max: 20,
     },
     email: {
         type: "string",
