@@ -9,13 +9,13 @@ const handler = async (req, res) => {
     const { token } = req.cookies
 
     if (!token) {
-        return res.status(400).json({ message: 'You are not login!!' });
+        return res.status(422).json({ message: 'You are not login!!' });
     }
 
     const payloadToken = verifyToken(token);
 
     if (payloadToken === false) {
-        return res.status(422).json({ message: 'You token is not valid!!' });
+        return res.status(423).json({ message: 'You token is not valid!!' });
     }
 
     try {
