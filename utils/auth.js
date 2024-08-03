@@ -26,7 +26,10 @@ const isExistUser = async (email) => {
     } else {
         return false
     }
-
+}
+const verifyPassword = ({password, hashedPassword}) => {
+    const isValid = compare(password, hashedPassword);
+    return isValid
 }
 
-export { generateToken, hashPassword, isExistUser }
+export { generateToken, hashPassword, isExistUser, verifyPassword }

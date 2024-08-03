@@ -1,5 +1,5 @@
 import connectToDb from "@/configs/db"
-import userValidator from "@/validators/user"
+import {signupValidator} from "@/validators/user"
 import userModel from '@/models/user'
 import { generateToken, hashPassword, isExistUser } from "@/utils/auth"
 import { serialize } from "cookie"
@@ -11,7 +11,7 @@ const handler = async (req, res) => {
         res.status(422).json({ message: "UnHandled request !!" })
     }
     // Validate request body
-    const isValidUser = userValidator(req.body);
+    const isValidUser = signupValidator(req.body);
     if (isValidUser !== true) {
         return res.status(422).json(isValidUser)
     }
