@@ -10,13 +10,12 @@ const schema = {
     },
     email: {
         type: "string",
-        pattern: '^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'
+        pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
     },
     password: {
         type: "string",
-        pattern: '^(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,}$',
-        minLength: 8,
-        maxLength: 50,
+        min: 4,
+        max: 20,
     }
 }
 
