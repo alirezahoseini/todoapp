@@ -2,6 +2,8 @@ import Link from 'next/link'
 import Input from '@/components/modules/Input/Input';
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
+import connectToDb from "@/configs/db";
+import { verifyToken } from "@/utils/auth";
 
 function signin() {
   const guestInfo = {
@@ -128,3 +130,26 @@ function signin() {
 }
 
 export default signin
+
+
+
+export async function getServerSideProps(context) {
+  connectToDb()
+  const { token } = context.req.cookies;
+
+  const payloadToken = verifyToken(token);
+
+  if (payloadToken !== false) {
+    return {
+      redirect: {
+        destination: '/'
+      }
+    }
+  }
+
+  return {
+    props: {
+      data: ''
+    }
+  }
+}

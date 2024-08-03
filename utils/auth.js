@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+import jwt, { verify } from 'jsonwebtoken'
 import { hash, compare } from 'bcryptjs';
 import userModel from '@/models/user'
 const { default: connectToDb } = require("@/configs/db");
@@ -32,4 +32,13 @@ const verifyPassword = ({password, hashedPassword}) => {
     return isValid
 }
 
-export { generateToken, hashPassword, isExistUser, verifyPassword }
+const verifyToken = (token) => {
+    try {
+        const result = verify(token, process.env.privateKey);
+        return result
+    } catch (error) {
+        return false
+    }
+}
+
+export { generateToken, hashPassword, isExistUser, verifyPassword, verifyToken }
