@@ -19,8 +19,25 @@ function Header() {
     } catch (error) {
       console.log('Cannot get user info in Header !!!' , error);
     }
-
   }
+
+  const logoutHandler = async () => {
+    try {
+      const res = await fetch('/api/auth/signout')
+      const data = await res.json();
+      if (res.status === 404 || res.status === 500) {
+        console.log(data);
+      }
+
+      if (res.status === 200) {
+        router.replace('/signin')
+      }
+    } catch (error) {
+      console.log('Cannot get user info in Header !!!' , error);
+    }
+  }
+
+
   useEffect(() => {
     getUser()
   }, [router.pathname]);
@@ -37,7 +54,7 @@ function Header() {
         ) : (
           <>
             <h2 className='font-bold'>Hello {userName} 🖐️</h2>
-            <button className='btn'>Logout</button>
+            <button onClick={logoutHandler} className='btn'>Logout</button>
           </>
         )}
       </div>

@@ -1,7 +1,9 @@
 import { verifyToken } from "@/utils/auth";
 import userModel from '@/models/user'
+import connectToDb from "@/configs/db";
 
 const handler = async (req, res) => {
+    connectToDb()
     if (req.method !== 'GET') {
         return res.status(404).json({ message: "Unhandled request !!" })
     }
@@ -23,7 +25,7 @@ const handler = async (req, res) => {
         return res.json(user)
     } catch (error) {
         console.log('Cannot find user => ', error);
-        return res.status(500).res({ message: "Unknow server error" })
+        return res.status(500).json({ message: "Unknow server error" })
     }
 }
 
