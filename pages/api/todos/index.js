@@ -30,7 +30,7 @@ const handler = async (req, res) => {
             const tokenPayload = await verifyToken(token);
             const user = await userModel.findOne({ email: tokenPayload.email })
             const todo = await todosModel.create({ title, user: user.id, isComplated: false });
-            res.status(201).json({message: 'Create new todo successfully :)'});
+            res.status(201).json({message: 'Create new todo successfully :)', todo});
 
 
         } catch (error) {

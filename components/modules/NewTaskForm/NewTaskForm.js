@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Input from '../Input/Input'
 import { useRouter } from 'next/router';
 
-function NewTaskForm() {
+function NewTaskForm({updateList}) {
     const [formValues, setFormValues] = useState({
         title: "",
     });
@@ -55,7 +55,9 @@ function NewTaskForm() {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({ title: formValues.title })
-            })
+            });
+            const data = await res.json();
+            const {title, _id, isComplated} = data.todo;
             if (res.status === 423) {
                 router.replace('/signin')
             }
@@ -66,7 +68,10 @@ function NewTaskForm() {
                 alert('This request not suported');
             }
             if (res.status === 201) {
-                alert('Create todo Successfully :))')
+                setFormValues({title: ''});
+                setErrors({title: false});
+                setFocused({title: false})
+                updateList();
             }
         }
 

@@ -17,7 +17,10 @@ const handler = async (req, res) => {
     const payloadToken = verifyToken(token);
 
     if (payloadToken === false) {
-        return res.status(423).json({ message: 'You token is not valid!!' });
+        return res.setHeader("Set-Cookie", serialize("token", "", {
+            path: "/",
+            maxAge: 0
+        })).status(423).json({ message: 'You token is not valid!!' });
     }
 
     try {
