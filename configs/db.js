@@ -6,7 +6,7 @@ const connectToDb = async () => {
         if(mongoose.connections[0].readyState){
             console.log('DB connection ==> OK');
         } else {
-            mongoose.connect('mongodb://localhost:27017/todo-app');
+            mongoose.connect('mongodb://localhost:27017/todo-app-next');
             console.log('Create connection Successfully :)');
         }
     } catch (error) {
