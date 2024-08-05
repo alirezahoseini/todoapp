@@ -13,6 +13,7 @@ const handler = async (req, res) => {
     // Validate request body
     const isValidUser = signinValidator(req.body);
     if (isValidUser !== true) {
+        console.log("User data is not valid => in signin.js => line 16", req.body);
         return res.status(422).json(isValidUser)
     }
 
